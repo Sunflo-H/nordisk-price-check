@@ -1,4 +1,4 @@
-import { child, get, getDatabase, ref, set, update } from "firebase/database";
+import { child, get, getDatabase, ref, set } from "firebase/database";
 import type { Dispatch, SetStateAction } from "react";
 import "./firebaseConfig";
 import type { ExcelDataType } from "../types";
