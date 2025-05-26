@@ -5,14 +5,85 @@
   text-align: center;
 }
 
-.card {
-  padding: 2em;
+.product-table {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  font-family: "Arial", sans-serif;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.read-the-docs {
-  color: #888;
+.product-table thead tr {
+  background-color: #cde8d1; /* 파스텔 민트 */
+  color: #333;
+  font-weight: bold;
 }
 
-table {
-  border: 1px solid black;
+.product-table th,
+.product-table td {
+  padding: 16px 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.product-table tbody tr:nth-child(even) {
+  background-color: #f9f6f2; /* 파스텔 베이지 */
+}
+
+.product-table tbody tr:nth-child(odd) {
+  background-color: #f0f7fa; /* 파스텔 하늘 */
+}
+
+.product-table tbody tr:hover {
+  background-color: #ffeaea; /* 마우스 오버: 파스텔 핑크 */
+  transition: background-color 0.3s ease;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .upload {
+    display: none;
+  }
+  /* 컨트롤 버튼들: 세로 정렬 */
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .category-buttons button {
+    flex: 1 1 40%; /* 작은 화면에서 버튼 두 줄로 배치되도록 */
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .upload-button {
+    display: none; /* 모바일에서는 엑셀 업로드 숨기기 */
+  }
+
+  .product-table th,
+  .product-table td {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .product-table {
+    font-size: 14px;
+    box-shadow: none;
+    border-radius: 0;
+  }
 }

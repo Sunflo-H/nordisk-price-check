@@ -38,32 +38,47 @@ const ExcelReader = () => {
   }, [productsData]);
   return (
     <div>
-      <input
-        type="file"
-        accept=".xlsx, .xls"
-        onChange={handleFileUpload}
-        ref={fileInputRef}
-        className="hidden"
-      />
-      <div
-        onClick={handleFileInput}
-        className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block"
-      >
-        엑셀 파일 업로드
+      <div className="upload">
+        <input
+          type="file"
+          accept=".xlsx, .xls"
+          onChange={handleFileUpload}
+          ref={fileInputRef}
+          className="hidden"
+        />
+        <div
+          onClick={handleFileInput}
+          className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block"
+        >
+          엑셀 파일 업로드
+        </div>
+        <div>==========================================</div>
       </div>
-      <div>==========================================</div>
-      <div>
+      <div className="controls">
+        <div className="category-buttons">
+          <button>상의</button>
+          <button>하의</button>
+          <button>자켓</button>
+          <button>키즈</button>
+          <button>악세사리</button>
+        </div>
+      </div>
+      <table className="product-table">
+        <thead>
+          <tr>
+            <th>상품 코드</th>
+            <th>상품 가격</th>
+          </tr>
+        </thead>
         {productsData.map((product) => (
-          <table key={product.상품코드}>
+          <tbody>
             <tr className="content">
               <td>{product.상품코드}</td>
-              // fs에 저장할 때 판매가로 안하고 가격으로 저장해서 생기는 문제야
-              // 일관성있게 판매가로 통합시키자.
               <td>{product.판매가}</td>
             </tr>
-          </table>
+          </tbody>
         ))}
-      </div>
+      </table>
     </div>
   );
 };
