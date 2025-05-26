@@ -3,9 +3,9 @@ import type { ExcelDataType } from "./types";
 
 type CategoryProps = {
   productsData: ExcelDataType[];
-  activeCategory: string;
+  activeCategory: string | null;
   setFilteredData: Dispatch<SetStateAction<ExcelDataType[]>>;
-  setActiveCategory: Dispatch<SetStateAction<string>>;
+  setActiveCategory: Dispatch<SetStateAction<string | null>>;
 };
 
 // const categoryMap: Record<string, string> = {

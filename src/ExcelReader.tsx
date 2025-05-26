@@ -66,7 +66,6 @@ const ExcelReader = () => {
       </div>
       <Category
         productsData={productsData}
-        // setProductsData={setProductsData}
         setFilteredData={setFilteredData}
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
