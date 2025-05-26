@@ -1,10 +1,11 @@
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import type { ExcelDataType } from "./types";
-import { readData } from "./firebase/firebaseDatabase";
 
 type CategoryProps = {
   productsData: ExcelDataType[];
-  setProductsData: Dispatch<SetStateAction<ExcelDataType[]>>;
+  activeCategory: string;
+  setFilteredData: Dispatch<SetStateAction<ExcelDataType[]>>;
+  setActiveCategory: Dispatch<SetStateAction<string>>;
 };
 
 const categoryMap: Record<string, string> = {
@@ -17,36 +18,30 @@ const categoryMap: Record<string, string> = {
   acc: "악세사리",
 };
 
-const getCategory = (code: string): string => {
-  const category = code.charAt(1) === "X" ? "X" : code.charAt(5); // index 5 → "2"
-  if (category === "X") return "kids";
-  if (["1", "2", "3", "4", "5"].includes(category)) return category;
-  return "악세사리";
-};
-
 const Category: React.FC<CategoryProps> = ({
   productsData,
-  setProductsData,
+  activeCategory,
+  setFilteredData,
+  setActiveCategory,
 }) => {
-  const [activeCategory, setActiveCategory] = useState<string>("상의");
-
-  const handleFilter = (categoryValue: string) => {
-    const selectedCategory = categoryValue;
+  const handleFilter = (categoryKey: string) => {
+    const selectedCategory = categoryMap[categoryKey];
     setActiveCategory(selectedCategory);
-    // const filtered = productsData.filter(
-    //   (product) => product.category === selectedCategory
-    // );
-    // setProductsData(filtered);
+
+    const filtered = productsData.filter(
+      (product) => product.category === categoryKey
+    );
+
+    setFilteredData(filtered);
   };
-  console.log(activeCategory);
-  //   console.log(Object.keys(categoryMap));
+
   return (
     <div className="controls">
       <div className="category-buttons">
         {Object.keys(categoryMap).map((categoryKey) => (
           <button
             key={categoryKey}
-            onClick={() => handleFilter(categoryMap[categoryKey])}
+            onClick={() => handleFilter(categoryKey)}
             className={`
               ${activeCategory === categoryMap[categoryKey] ? "active" : ""}
             `}

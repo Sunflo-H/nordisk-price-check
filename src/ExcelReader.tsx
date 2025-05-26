@@ -7,6 +7,9 @@ import Category from "./category";
 // 엑셀 파일을 선택함과 동시에 데이터를 파이어베이스에 저장 ->
 const ExcelReader = () => {
   const [productsData, setProductsData] = useState<ExcelDataType[]>([]);
+  const [filteredData, setFilteredData] = useState<ExcelDataType[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string>("자켓");
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -23,6 +26,7 @@ const ExcelReader = () => {
         .sheet_to_json(sheet)
         .splice(1) as ExcelDataType[];
       setProductsData(excelDataList);
+      setFilteredData(excelDataList);
       saveExcelData(excelDataList);
     };
 
@@ -33,9 +37,14 @@ const ExcelReader = () => {
   const handleFileInput = () => {
     fileInputRef.current?.click(); // input 클릭 트리거
   };
+
   useEffect(() => {
-    readData(setProductsData);
+    readData(setProductsData, setFilteredData);
   }, []);
+
+  // useEffect(() => {
+  //   setFilteredData()
+  // },[activeCategory]);
 
   return (
     <div>
@@ -55,7 +64,13 @@ const ExcelReader = () => {
         </div>
         <div>==========================================</div>
       </div>
-      <Category productsData={productsData} setProductsData={setProductsData} />
+      <Category
+        productsData={productsData}
+        // setProductsData={setProductsData}
+        setFilteredData={setFilteredData}
+        activeCategory={activeCategory}
+        setActiveCategory={setActiveCategory}
+      />
       <table className="product-table">
         <thead>
           <tr>
@@ -64,7 +79,7 @@ const ExcelReader = () => {
           </tr>
         </thead>
         <tbody>
-          {productsData.map((product) => (
+          {filteredData.map((product) => (
             <tr className="content" key={product.상품코드}>
               <td>{product.상품코드}</td>
               <td>{product.판매가}</td>
