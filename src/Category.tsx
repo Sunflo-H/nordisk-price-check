@@ -8,6 +8,16 @@ type CategoryProps = {
   setActiveCategory: Dispatch<SetStateAction<string>>;
 };
 
+// const categoryMap: Record<string, string> = {
+//   "1": "자켓",
+//   "2": "상의",
+//   "3": "하의",
+//   "4": "셔츠",
+//   "5": "패딩",
+//   X: "키즈",
+//   acc: "악세사리",
+// };
+
 const categoryMap: Record<string, string> = {
   "1": "자켓",
   "2": "상의",
@@ -37,6 +47,19 @@ const Category: React.FC<CategoryProps> = ({
 
   return (
     <div className="controls">
+      {/* <div className="category-buttons">
+        {Object.keys(categoryMap).map((categoryKey) => (
+          <button
+            key={categoryKey}
+            onClick={() => handleFilter(categoryKey)}
+            className={`
+              ${activeCategory === categoryMap[categoryKey] ? "active" : ""}
+            `}
+          >
+            {categoryMap[categoryKey]}
+          </button>
+        ))}
+      </div> */}
       <div className="category-buttons">
         {Object.keys(categoryMap).map((categoryKey) => (
           <button

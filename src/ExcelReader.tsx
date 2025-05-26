@@ -8,7 +8,7 @@ import Category from "./Category";
 const ExcelReader = () => {
   const [productsData, setProductsData] = useState<ExcelDataType[]>([]);
   const [filteredData, setFilteredData] = useState<ExcelDataType[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string>("자켓");
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

@@ -20,8 +20,7 @@ function saveExcelData(excelDataList: ExcelDataType[]): void {
     const year = product.상품코드.slice(3, 5); // index 3, 4 → "24"
     const getCategory = (code: string): string => {
       const category = code.charAt(1) === "X" ? "X" : code.charAt(5); // index 5 → "2"
-      if (category === "X") return "kids";
-      if (["1", "2", "3", "4", "5"].includes(category)) return category;
+      if (["1", "2", "3", "4", "5", "X"].includes(category)) return category;
       return "acc";
     };
     const category = getCategory(product.상품코드);
@@ -54,7 +53,7 @@ function readData(
           })
         );
         setProductsData(productsData);
-        setFilteredData(productsData);
+        // setFilteredData(productsData);
       } else {
         console.log("No data available");
       }
