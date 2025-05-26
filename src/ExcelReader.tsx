@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import { readData, saveExcelData } from "./firebase/firebaseDatabase";
 import type { ExcelDataType } from "./types";
+import Category from "./category";
 
 // 엑셀 파일을 선택함과 동시에 데이터를 파이어베이스에 저장 ->
 const ExcelReader = () => {
@@ -32,10 +33,10 @@ const ExcelReader = () => {
   const handleFileInput = () => {
     fileInputRef.current?.click(); // input 클릭 트리거
   };
-
   useEffect(() => {
     readData(setProductsData);
-  }, [productsData]);
+  }, []);
+
   return (
     <div>
       <div className="upload">
@@ -54,15 +55,7 @@ const ExcelReader = () => {
         </div>
         <div>==========================================</div>
       </div>
-      <div className="controls">
-        <div className="category-buttons">
-          <button>상의</button>
-          <button>하의</button>
-          <button>자켓</button>
-          <button>키즈</button>
-          <button>악세사리</button>
-        </div>
-      </div>
+      <Category productsData={productsData} setProductsData={setProductsData} />
       <table className="product-table">
         <thead>
           <tr>
@@ -70,14 +63,14 @@ const ExcelReader = () => {
             <th>상품 가격</th>
           </tr>
         </thead>
-        {productsData.map((product) => (
-          <tbody>
-            <tr className="content">
+        <tbody>
+          {productsData.map((product) => (
+            <tr className="content" key={product.상품코드}>
               <td>{product.상품코드}</td>
               <td>{product.판매가}</td>
             </tr>
-          </tbody>
-        ))}
+          ))}
+        </tbody>
       </table>
     </div>
   );
