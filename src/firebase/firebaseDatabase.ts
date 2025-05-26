@@ -18,6 +18,8 @@ function saveExcelData(excelDataList: ExcelDataType[]): void {
     //   // set(productRef, product);
     // });
     const year = product.상품코드.slice(3, 5); // index 3, 4 → "24"
+    if (year !== "24") return;
+
     const getCategory = (code: string): string => {
       const category = code.charAt(1) === "X" ? "X" : code.charAt(5); // index 5 → "2"
       if (["1", "2", "3", "4", "5", "X"].includes(category)) return category;
@@ -50,7 +52,6 @@ function readData(setProductsData: Dispatch<SetStateAction<ExcelDataType[]>>) {
           })
         );
         setProductsData(productsData);
-        // setFilteredData(productsData);
       } else {
         console.log("No data available");
       }
