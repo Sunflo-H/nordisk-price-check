@@ -39,7 +39,7 @@ const ExcelReader = () => {
   };
 
   useEffect(() => {
-    readData(setProductsData, setFilteredData);
+    readData(setProductsData);
   }, []);
 
   // useEffect(() => {

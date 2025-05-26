@@ -35,10 +35,7 @@ function saveExcelData(excelDataList: ExcelDataType[]): void {
   });
 }
 
-function readData(
-  setProductsData: Dispatch<SetStateAction<ExcelDataType[]>>,
-  setFilteredData: Dispatch<SetStateAction<ExcelDataType[]>>
-) {
+function readData(setProductsData: Dispatch<SetStateAction<ExcelDataType[]>>) {
   get(child(dbRef, `allproduct-price`))
     .then((snapshot) => {
       if (snapshot.exists()) {
