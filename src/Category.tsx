@@ -28,24 +28,30 @@ const Category: React.FC<CategoryProps> = ({
   productsData,
   setProductsData,
 }) => {
-  const [activeCategory, setActiveCategory] = useState<string>("2");
+  const [activeCategory, setActiveCategory] = useState<string>("상의");
 
-  const handleFilter = (categoryKey: string) => {
-    const selectedCategory = categoryMap[categoryKey];
+  const handleFilter = (categoryValue: string) => {
+    const selectedCategory = categoryValue;
     setActiveCategory(selectedCategory);
-    const filtered = productsData.filter(
-      (product) => product.category === selectedCategory
-    );
-    setProductsData(filtered);
-    setProductsData(productsData);
+    // const filtered = productsData.filter(
+    //   (product) => product.category === selectedCategory
+    // );
+    // setProductsData(filtered);
   };
-
+  console.log(activeCategory);
+  //   console.log(Object.keys(categoryMap));
   return (
     <div className="controls">
       <div className="category-buttons">
-        {Object.values(categoryMap).map((categoryKey) => (
-          <button key={categoryKey} onClick={() => handleFilter(categoryKey)}>
-            {categoryKey}
+        {Object.keys(categoryMap).map((categoryKey) => (
+          <button
+            key={categoryKey}
+            onClick={() => handleFilter(categoryMap[categoryKey])}
+            className={`
+              ${activeCategory === categoryMap[categoryKey] ? "active" : ""}
+            `}
+          >
+            {categoryMap[categoryKey]}
           </button>
         ))}
       </div>
