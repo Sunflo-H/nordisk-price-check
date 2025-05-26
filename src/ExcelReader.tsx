@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import { readData, saveExcelData } from "./firebase/firebaseDatabase";
 import type { ExcelDataType } from "./types";
-import Category from "./category";
+import Category from "./Category";
 
 // 엑셀 파일을 선택함과 동시에 데이터를 파이어베이스에 저장 ->
 const ExcelReader = () => {
