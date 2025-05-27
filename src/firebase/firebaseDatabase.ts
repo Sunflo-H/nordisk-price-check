@@ -1,22 +1,15 @@
 import { child, get, getDatabase, ref, set } from "firebase/database";
 import type { Dispatch, SetStateAction } from "react";
 import "./firebaseConfig";
-import type { ExcelDataType } from "../types";
+import type { ExcelDataType, MergedProductType } from "../types";
 
 const db = getDatabase();
 const dbRef = ref(db);
 
 function saveExcelData(excelDataList: ExcelDataType[]): void {
-  excelDataList.forEach((product) => {
+  const mergedDataList = mergeExcelData(excelDataList);
+  mergedDataList.forEach((product) => {
     const productRef = ref(db, "allproduct-price/" + product.상품코드);
-    // get(productRef).then((snapshot) => {
-    //   if (snapshot.exists()) {
-    //     console.log("기존 데이터 있음. 덮어씌움.");
-    //   } else {
-    //     console.log("신규 상품. 새로 등록.");
-    //   }
-    //   // set(productRef, product);
-    // });
     const year = product.상품코드.slice(3, 5); // index 3, 4 → "24"
     if (year !== "24") return;
 
@@ -32,6 +25,7 @@ function saveExcelData(excelDataList: ExcelDataType[]): void {
       판매가: product.판매가,
       year,
       category,
+      칼라: product.칼라,
     };
     set(productRef, obj_product);
   });
@@ -59,6 +53,31 @@ function readData(setProductsData: Dispatch<SetStateAction<ExcelDataType[]>>) {
     .catch((error) => {
       console.error(error);
     });
+}
+
+function mergeExcelData(excelRows: ExcelDataType[]): MergedProductType[] {
+  const productMap = new Map<string, MergedProductType>();
+
+  excelRows.forEach((row) => {
+    const existing = productMap.get(row.상품코드);
+
+    if (existing) {
+      // 기존에 존재하는 경우: color만 추가
+      if (!existing.칼라.includes(row.칼라)) {
+        existing.칼라.push(row.칼라);
+      }
+    } else {
+      // 처음 나오는 경우: 객체 새로 만들고 color를 배열로
+      const { 칼라, ...rest } = row;
+      productMap.set(row.상품코드, {
+        ...rest,
+        칼라: [칼라],
+      });
+    }
+  });
+
+  const result = Array.from(productMap.values());
+  return result;
 }
 
 export { saveExcelData, readData };
