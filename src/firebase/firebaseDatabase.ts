@@ -6,9 +6,8 @@ import type { ExcelDataType, MergedProductType } from "../types";
 const db = getDatabase();
 const dbRef = ref(db);
 
-function saveExcelData(excelDataList: ExcelDataType[]): void {
-  const mergedDataList = mergeExcelData(excelDataList);
-  mergedDataList.forEach((product) => {
+function saveExcelData(MergedExcelDataList: MergedProductType[]): void {
+  MergedExcelDataList.forEach((product) => {
     const productRef = ref(db, "allproduct-price/" + product.상품코드);
     const year = product.상품코드.slice(3, 5); // index 3, 4 → "24"
     if (year !== "24") return;
@@ -31,20 +30,22 @@ function saveExcelData(excelDataList: ExcelDataType[]): void {
   });
 }
 
-function readData(setProductsData: Dispatch<SetStateAction<ExcelDataType[]>>) {
+function readData(
+  setProductsData: Dispatch<SetStateAction<MergedProductType[]>>
+) {
   get(child(dbRef, `allproduct-price`))
     .then((snapshot) => {
       if (snapshot.exists()) {
         const snapshotVal = snapshot.val() as Record<
           string,
-          Omit<ExcelDataType, "상품코드">
+          Omit<MergedProductType, "상품코드">
         >;
-        const productsData: ExcelDataType[] = Object.entries(snapshotVal).map(
-          ([상품코드, item]) => ({
-            상품코드,
-            ...item,
-          })
-        );
+        const productsData: MergedProductType[] = Object.entries(
+          snapshotVal
+        ).map(([상품코드, item]) => ({
+          상품코드,
+          ...item,
+        }));
         setProductsData(productsData);
       } else {
         console.log("No data available");
@@ -80,4 +81,4 @@ function mergeExcelData(excelRows: ExcelDataType[]): MergedProductType[] {
   return result;
 }
 
-export { saveExcelData, readData };
+export { saveExcelData, readData, mergeExcelData };

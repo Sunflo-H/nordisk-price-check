@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import * as XLSX from "xlsx";
-import { readData, saveExcelData } from "./firebase/firebaseDatabase";
-import type { ExcelDataType } from "./types";
+import {
+  mergeExcelData,
+  readData,
+  saveExcelData,
+} from "./firebase/firebaseDatabase";
+import type { ExcelDataType, MergedProductType } from "./types";
 import Category from "./Category";
 
 // 엑셀 파일을 선택함과 동시에 데이터를 파이어베이스에 저장 ->
 const ExcelReader = () => {
-  const [productsData, setProductsData] = useState<ExcelDataType[]>([]);
-  const [filteredData, setFilteredData] = useState<ExcelDataType[]>([]);
+  const [productsData, setProductsData] = useState<MergedProductType[]>([]);
+  const [filteredData, setFilteredData] = useState<MergedProductType[]>([]);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,9 +29,10 @@ const ExcelReader = () => {
       const excelDataList = XLSX.utils
         .sheet_to_json(sheet)
         .splice(1) as ExcelDataType[];
-      setProductsData(excelDataList);
-      setFilteredData(excelDataList);
-      saveExcelData(excelDataList);
+      const mergedDataList = mergeExcelData(excelDataList);
+      setProductsData(mergedDataList);
+      setFilteredData(mergedDataList);
+      saveExcelData(mergedDataList);
     };
 
     reader.readAsBinaryString(file);
@@ -41,10 +46,6 @@ const ExcelReader = () => {
   useEffect(() => {
     readData(setProductsData);
   }, []);
-
-  // useEffect(() => {
-  //   setFilteredData()
-  // },[activeCategory]);
 
   return (
     <div>
@@ -74,6 +75,7 @@ const ExcelReader = () => {
         <thead>
           <tr>
             <th>상품 코드</th>
+            <th>칼라</th>
             <th>상품 가격</th>
           </tr>
         </thead>
@@ -81,6 +83,7 @@ const ExcelReader = () => {
           {filteredData.map((product) => (
             <tr className="content" key={product.상품코드}>
               <td>{product.상품코드}</td>
+              <td>{product.칼라.join(", ")}</td>
               <td>{product.판매가}</td>
             </tr>
           ))}

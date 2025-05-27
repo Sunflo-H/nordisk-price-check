@@ -1,22 +1,12 @@
 import { type Dispatch, type SetStateAction } from "react";
-import type { ExcelDataType } from "./types";
+import type { MergedProductType } from "./types";
 
 type CategoryProps = {
-  productsData: ExcelDataType[];
+  productsData: MergedProductType[];
   activeCategory: string | null;
-  setFilteredData: Dispatch<SetStateAction<ExcelDataType[]>>;
+  setFilteredData: Dispatch<SetStateAction<MergedProductType[]>>;
   setActiveCategory: Dispatch<SetStateAction<string | null>>;
 };
-
-// const categoryMap: Record<string, string> = {
-//   "1": "자켓",
-//   "2": "상의",
-//   "3": "하의",
-//   "4": "셔츠",
-//   "5": "패딩",
-//   X: "키즈",
-//   acc: "악세사리",
-// };
 
 const categoryMap: Record<string, string> = {
   "1": "자켓",
